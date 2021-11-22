@@ -59,10 +59,26 @@ namespace CinemaBookingSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,ShowingDate,Price,MovieId")] Seance seance)
         {
+            var seats = _context.Seats.ToList();
+            
+
             if (ModelState.IsValid)
             {
                 _context.Add(seance);
                 await _context.SaveChangesAsync();
+
+                foreach (var seat in seats)
+                {
+                    var seanceSeat = new Seance_Seat
+                    {
+                        SeanceId = seance.Id,
+                        SeatId = seat.Id
+                    };
+                    _context.Add(seanceSeat);
+                    await _context.SaveChangesAsync();
+                }
+
+                
                 return RedirectToAction(nameof(Index));
             }
             ViewData["MovieId"] = new SelectList(_context.Movies, "Id", "Id", seance.MovieId);
