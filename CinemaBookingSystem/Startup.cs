@@ -27,13 +27,15 @@ namespace CinemaBookingSystem
             services.AddControllersWithViews();
             services.AddDbContext<ApplicationDbContext>();
             services.AddScoped<GenreSeeder>();
+            services.AddScoped<SeatSeeder>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, GenreSeeder seeder)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, GenreSeeder genreSeeder, SeatSeeder seatSeeder)
         {
 
-            seeder.Seed();
+            genreSeeder.Seed();
+            seatSeeder.Seed();
 
             if (env.IsDevelopment())
             {
