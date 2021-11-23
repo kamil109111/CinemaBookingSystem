@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 namespace CinemaBookingSystem.Models
 {
     public class Schedule
-    {
-        public int MyProperty { get; set; }
-
+    { 
+        public virtual List<Seance> Seances { get; set; }
     }
 }

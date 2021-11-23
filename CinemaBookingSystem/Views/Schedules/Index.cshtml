@@ -1,0 +1,45 @@
+﻿@model IEnumerable<CinemaBookingSystem.Models.Seance>
+
+@{
+    ViewData["Title"] = "Index";
+
+    var date = DateTime.Today;
+    
+}
+
+<div class="container mb-5">
+    <h1 class="mb-3">Movies schedule</h1>
+    <div style="display: flex">        
+        @for (var i = 0; i < 7; i++)
+        {
+            var text = date.ToString("dd/MM");
+            <form style="margin-right: 8px">
+                <input type="hidden" name="date" value=@date />
+                <input class="" type="submit" value=@text />
+            </form>
+            
+            date = date.AddDays(1.00);
+        }        
+    </div>
+</div>
+
+<div class="container" style="max-width:980px; width:100%; padding:0 20px">
+
+    @foreach (var item in Model)
+    {
+        
+            <div class="container" style="padding: 0 12px 36px 12px; border-bottom: 2px solid; margin-bottom:24px">
+                <div class="container" style="display: flex; flex-direction: column">
+                    <h2>@Html.DisplayFor(modelItem => item.Movie.Title)</h2>
+                    <span>
+                        @Html.DisplayFor(modelItem => item.Movie.Genre.Name) | @Html.DisplayFor(modelItem => item.Movie.RunningTime)
+                    </span>
+                    <a>@Html.DisplayFor(modelItem => item.ShowingDate)</a>
+                </div>
+            </div>
+        
+    }
+</div>
+
+
+
