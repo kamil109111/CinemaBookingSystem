@@ -5,9 +5,13 @@ using System.Threading.Tasks;
 
 namespace CinemaBookingSystem.Models
 {
-    public class Seance_Seat
+    public class Ticket
     {
         public int Id { get; set; }
+
+        public bool IsAvailable { get; set; }
+
+        public decimal Price { get; set; }
 
         public int SeanceId { get; set; }
         public Seance Seance { get; set; }

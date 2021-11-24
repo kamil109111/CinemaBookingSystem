@@ -15,18 +15,18 @@ namespace CinemaBookingSystem.Data
         public DbSet<Genre> Genres { get; set; } 
         public DbSet<Seat> Seats { get; set; }
         public DbSet<Seance> Seances { get; set; }
-        public DbSet<Seance_Seat> Seance_Seats { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Seance_Seat>()
+            modelBuilder.Entity<Ticket>()
                 .HasOne(s => s.Seance)
-                .WithMany(s => s.Seance_Seats)
+                .WithMany(s => s.Tickets)
                 .HasForeignKey(s => s.SeanceId);
 
-            modelBuilder.Entity<Seance_Seat>()
+            modelBuilder.Entity<Ticket>()
                 .HasOne(s => s.Seat)
-                .WithMany(s => s.Seance_Seats)
+                .WithMany(s => s.Tickets)
                 .HasForeignKey(s => s.SeatId);
         }
 

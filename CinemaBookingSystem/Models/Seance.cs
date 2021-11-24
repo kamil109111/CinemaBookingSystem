@@ -13,6 +13,6 @@ namespace CinemaBookingSystem.Models
         public int MovieId { get; set; }
         public virtual Movie Movie { get; set; }
 
-        public virtual List<Seance_Seat> Seance_Seats { get; set; }
+        public virtual List<Ticket> Tickets{ get; set; }
     }
 }

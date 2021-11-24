@@ -69,12 +69,14 @@ namespace CinemaBookingSystem.Controllers
 
                 foreach (var seat in seats)
                 {
-                    var seanceSeat = new Seance_Seat
+                    var ticket = new Ticket
                     {
+                        Price = seance.Price,
+                        IsAvailable = true,
                         SeanceId = seance.Id,
                         SeatId = seat.Id
                     };
-                    _context.Add(seanceSeat);
+                    _context.Add(ticket);
                     await _context.SaveChangesAsync();
                 }
 
