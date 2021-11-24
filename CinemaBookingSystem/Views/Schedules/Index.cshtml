@@ -11,7 +11,7 @@
     <h1 class="mb-3">Movies schedule</h1>
     <div style="display: flex; margin-bottom: 16px">
         @for (var i = 0; i < 7; i++)
-        {
+         {
             var text = date.ToString("dd/MM");
             <form style="margin-right: 8px">
                 <input type="hidden" name="date" value=@date />
@@ -19,7 +19,7 @@
             </form>
 
             date = date.AddDays(1.00);
-        }
+         }
     </div>
     <p>
         @ViewData["Date"]
@@ -29,7 +29,7 @@
 <div class="container" style="max-width:980px; width:100%; padding:0 20px">
 
     @foreach (var item in Model)
-    {
+     {
         <div class="container" style="padding: 0 12px 36px 12px; border-bottom: 2px solid; margin-bottom:24px">
             <div class="container" style="display: flex; flex-direction: column">
                 <h2>@Html.DisplayFor(modelItem => item.Movie.Title)</h2>
@@ -37,9 +37,13 @@
                     @Html.DisplayFor(modelItem => item.Movie.Genre.Name) | @Html.DisplayFor(modelItem => item.Movie.RunningTime)
                 </span>
                 <a>@Html.DisplayFor(modelItem => item.ShowingDate)</a>
+                <form style="margin-top: 8px" asp-controller="Bookings" asp-action="Index">
+                    <input type="hidden" name="id" value=@item.Id />
+                    <input class="btn btn-primary" type="submit" value="Book now" />
+                </form>
             </div>
         </div>
-    }
+     }
 </div>
 
 

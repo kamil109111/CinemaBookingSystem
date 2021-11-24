@@ -1,0 +1,29 @@
+﻿@model IEnumerable<CinemaBookingSystem.Models.Ticket>
+
+<h1 style="margin-bottom: 32px">Book now</h1>
+<div class="container" style="padding: 0 12px 36px 12px; border-bottom: 2px solid; margin-bottom:24px">
+    <div class="container" style="display: flex; flex-direction: column">
+        <h2>@ViewData["Title"]</h2>
+        <span>
+            @ViewData["Genre"] | @ViewData["RunningTime"] | @ViewData["Language"]
+        </span>    
+    </div>
+</div>
+
+<h3 style="text-align: center">Choose yours seats:</h3>
+
+<div style="display: flex; justify-content: space-around;">
+    <div style="display:flex; flex-wrap: wrap; min-width: 320px; max-width: 320px">
+        @foreach (var item in Model)
+        {
+            <button class="btn btn-primary" style="width: 32px; height: 32px; margin: 4px; display:flex; align-items: center; justify-content: center;">
+                @Html.DisplayFor(modelItem => item.SeatId)
+            </button>
+        }
+    </div>
+</div>
+
+
+
+
+
