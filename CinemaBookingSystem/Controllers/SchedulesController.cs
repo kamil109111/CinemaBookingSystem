@@ -20,15 +20,16 @@ namespace CinemaBookingSystem.Controllers
         }
         public async Task<IActionResult> IndexAsync(string date)
         {
-            List<Seance> seances = new List<Seance>();
+            List<Seance> seances = new();
 
-            DateTime showingDate = new DateTime(); 
+            DateTime showingDate = new(); 
 
             if (!string.IsNullOrEmpty(date))
             {
                 seances = await _context.Seances
                     .Where(d => d.ShowingDate.Date == DateTime.Parse(date))
                     .Include(m => m.Movie.Genre)
+                    .OrderBy(m => m.ShowingDate)
                     .ToListAsync();
 
                 showingDate = DateTime.Parse(date);
@@ -37,12 +38,11 @@ namespace CinemaBookingSystem.Controllers
             {
                 seances = await  _context.Seances.Where(d => d.ShowingDate.Date == DateTime.Today.Date)
                     .Include(m => m.Movie.Genre)
+                    .OrderBy(m => m.ShowingDate)
                     .ToListAsync();
 
                 showingDate = DateTime.Today.Date;
             }
-
-
 
             ViewData["Date"] = showingDate.Date.ToString("dddd, dd MMMM yyyy");
 
