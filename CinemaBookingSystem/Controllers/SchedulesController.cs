@@ -22,7 +22,7 @@ namespace CinemaBookingSystem.Controllers
         {
             List<Seance> seances = new List<Seance>();
 
-
+            DateTime showingDate = new DateTime(); 
 
             if (!string.IsNullOrEmpty(date))
             {
@@ -30,13 +30,21 @@ namespace CinemaBookingSystem.Controllers
                     .Where(d => d.ShowingDate.Date == DateTime.Parse(date))
                     .Include(m => m.Movie.Genre)
                     .ToListAsync();
+
+                showingDate = DateTime.Parse(date);
             }
             else
             {
                 seances = await  _context.Seances.Where(d => d.ShowingDate.Date == DateTime.Today.Date)
                     .Include(m => m.Movie.Genre)
                     .ToListAsync();
+
+                showingDate = DateTime.Today.Date;
             }
+
+
+
+            ViewData["Date"] = showingDate.Date.ToString("dddd, dd MMMM yyyy");
 
             return View(seances);
         }
