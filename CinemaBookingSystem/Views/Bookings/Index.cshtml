@@ -23,7 +23,7 @@
             {
                 if (item.IsAvailable == true)
                 {
-                    <button class="btn btn-primary" id="@item.Id" onclick="checkSeat(@item.Id)" style="width: 32px; height: 32px; margin: 4px; display:flex; align-items: center; justify-content: center;">
+                    <button class="btn btn-primary" id="@item.SeatId" onclick="checkSeat(@item.SeatId)" style="width: 32px; height: 32px; margin: 4px; display:flex; align-items: center; justify-content: center;">
                         @Html.DisplayFor(modelItem => item.SeatId)
                     </button>
                 }
@@ -37,20 +37,28 @@
         </div>
     </div>
 
-<h3>Your seat(s):</h3>
-<p class="seats--js"></p>
+    <div class="container" style="display: inline-flex; height: 82px">
+        <div class="container">
+            <h3>Your seat(s):</h3>
+            <p class="seats--js"></p>
+        </div>
+        <button class="btn btn-primary" id="myBtn" style="width: 150px; height: 48px; align-self: center" disabled>Book now</button>
+    </div>
+
 
 
 <script type="text/javascript">
 
-    var seats = document.querySelector(".seats--js"); 
+    var seats = document.querySelector(".seats--js");
+    const myBtn = document.getElementById("myBtn");
     var mySeats = new Array();
 
     function checkSeat(id) {
 
         seats.innerHTML = ``;
 
-        if (mySeats.length > 0) {
+        if (mySeats.length > 0) {            
+
             for (let i = 0; i < mySeats.length; ++i) {
                 if (mySeats[i].seatId == id) {
                     var element = document.getElementById(id);
@@ -62,6 +70,9 @@
                         console.log(mySeats[i]);
                         seats.innerHTML += `<span>${mySeats[i].seatId} </span>`;
                     }
+                    if (mySeats.length == 0) {
+                        myBtn.disabled = true;
+                    }
                     return;
                 }
             }            
@@ -71,6 +82,7 @@
         seat.seatId = id;
         seat.checked = true;
         mySeats.push(seat);
+        myBtn.disabled = false;
 
         console.log("Tablica po dodaniu:")
         for (let i = 0; i < mySeats.length; ++i) {           
