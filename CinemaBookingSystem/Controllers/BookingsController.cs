@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace CinemaBookingSystem.Controllers
@@ -46,5 +47,21 @@ namespace CinemaBookingSystem.Controllers
 
             return RedirectToAction("Index", new { id = ticket.SeanceId });
         }
+
+        [HttpPost]
+        public ActionResult BookNow([FromBody]List<JsonTicket> listOfTickets)
+        {
+            List<Ticket> bookedTickets = new();            
+
+            foreach(var ticket in listOfTickets )
+            {
+                var selectedTicket = _context.Tickets.Where(t => t.Id == ticket.Id);
+                
+            }
+            
+
+            return View(bookedTickets);
+        }
+       
     }
 }

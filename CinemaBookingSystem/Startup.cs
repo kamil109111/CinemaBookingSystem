@@ -1,6 +1,7 @@
 using CinemaBookingSystem.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,7 +28,7 @@ namespace CinemaBookingSystem
             services.AddControllersWithViews();
             services.AddDbContext<ApplicationDbContext>();
             services.AddScoped<GenreSeeder>();
-            services.AddScoped<SeatSeeder>();
+            services.AddScoped<SeatSeeder>();            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

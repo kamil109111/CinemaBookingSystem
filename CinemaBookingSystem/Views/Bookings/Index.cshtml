@@ -16,48 +16,48 @@
 <h3 style="text-align: center">Choose yours seats:</h3>
 
 
-    <div style="display: flex; justify-content: space-around; border-bottom: 2px solid; padding-bottom: 24px">
-        <div style="display:flex; flex-wrap: wrap; min-width: 320px; max-width: 320px">
+<div style="display: flex; justify-content: space-around; border-bottom: 2px solid; padding-bottom: 24px">
+    <div style="display:flex; flex-wrap: wrap; min-width: 320px; max-width: 320px">
 
-            @foreach (var item in Model)
+        @foreach (var item in Model)
+        {
+            if (item.IsAvailable == true)
             {
-                if (item.IsAvailable == true)
-                {
-                    <button class="btn btn-primary" id="@item.SeatId" onclick="checkSeat(@item.SeatId)" style="width: 32px; height: 32px; margin: 4px; display:flex; align-items: center; justify-content: center;">
-                        @Html.DisplayFor(modelItem => item.SeatId)
-                    </button>
-                }
-                else
-                {
-                    <button class="btn btn-warning" disabled style="width: 32px; height: 32px; margin: 4px; display:flex; align-items: center; justify-content: center;">
-                        @Html.DisplayFor(modelItem => item.SeatId)
-                    </button>
-                }
+                <button class="btn btn-primary" id="@item.SeatId" onclick="checkSeat(@item.SeatId, @item.Id)" style="width: 32px; height: 32px; margin: 4px; display:flex; align-items: center; justify-content: center;">
+                    @Html.DisplayFor(modelItem => item.SeatId)
+                </button>
             }
-        </div>
+            else
+            {
+                <button class="btn btn-warning" disabled style="width: 32px; height: 32px; margin: 4px; display:flex; align-items: center; justify-content: center;">
+                    @Html.DisplayFor(modelItem => item.SeatId)
+                </button>
+            }
+        }
     </div>
+</div>
 
-    <div class="container" style="display: inline-flex; height: 82px">
-        <div class="container">
-            <h3>Your seat(s):</h3>
-            <p class="seats--js"></p>
-        </div>
-        <button class="btn btn-primary" id="myBtn" style="width: 150px; height: 48px; align-self: center" disabled>Book now</button>
+<div class="container" style="display: inline-flex; height: 82px">
+    <div class="container">
+        <h3>Your seat(s):</h3>
+        <p class="seats--js"></p>
     </div>
-
+    <input class="btn btn-primary" type="button" id="myBtn" onclick="sendTicketsList()" style="width: 150px; height: 48px; align-self: center" disabled value="Book now" />
+</div>
 
 
 <script type="text/javascript">
 
     var seats = document.querySelector(".seats--js");
     const myBtn = document.getElementById("myBtn");
+    const bookNowButton = document.querySelector(".bookNowButton--js");
     var mySeats = new Array();
 
-    function checkSeat(id) {
+    function checkSeat(id, ticketId) {
 
         seats.innerHTML = ``;
 
-        if (mySeats.length > 0) {            
+        if (mySeats.length > 0) {
 
             for (let i = 0; i < mySeats.length; ++i) {
                 if (mySeats[i].seatId == id) {
@@ -75,24 +75,53 @@
                     }
                     return;
                 }
-            }            
+            }
         }
-        
+
         var seat = new Object();
         seat.seatId = id;
+        seat.ticketId = ticketId;
         seat.checked = true;
         mySeats.push(seat);
         myBtn.disabled = false;
 
         console.log("Tablica po dodaniu:")
-        for (let i = 0; i < mySeats.length; ++i) {           
+        for (let i = 0; i < mySeats.length; ++i) {
             console.log(mySeats[i]);
             seats.innerHTML += `<span>${mySeats[i].seatId} </span>`;
             if (mySeats[i].checked == true) {
                 var element = document.getElementById(id);
                 element.style.background = "red";
             }
-        }        
-    }          
+        }
+    }
+
+    function sendTicketsList() {
+        var ticketsJson = GetTicketList();
+        var listOfTickets = JSON.stringify(ticketsJson);
+        console.log(listOfTickets);
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            dataType: 'json',
+            url: '/Bookings/BookNow',
+            data: listOfTickets,
+            success: "success",
+            error: "error"
+        });
+    }
+    function GetTicketList() {
+
+        var ticketList = new Array();       
+        
+        console.log("Wysyłane bilety:");
+        for (var i = 0; i < mySeats.length; i++) {
+            var ticket = new Object();
+            ticket.id = mySeats[i].ticketId;
+            ticketList.push(ticket);            
+        }
+
+        return ticketList;
+    }
 </script>
 
