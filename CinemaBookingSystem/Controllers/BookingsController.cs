@@ -49,17 +49,16 @@ namespace CinemaBookingSystem.Controllers
         }
 
         [HttpPost]
-        public ActionResult BookNow([FromBody]List<JsonTicket> listOfTickets)
+        public async Task<IActionResult> BookNow([FromBody]List<JsonTicket> listOfTickets)
         {
             List<Ticket> bookedTickets = new();            
 
             foreach(var ticket in listOfTickets )
             {
-                var selectedTicket = _context.Tickets.Where(t => t.Id == ticket.Id);
-                
+                var selectedTicket = await _context.Tickets.Where(t => t.Id == ticket.Id).FirstOrDefaultAsync();
+                bookedTickets.Add(selectedTicket);
             }
             
-
             return View(bookedTickets);
         }
        
